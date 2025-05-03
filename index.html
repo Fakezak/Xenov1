@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xeno Modz Proxy Panel</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #121212; color: white; }
+    input[type="text"], input[type="number"], select { margin: 10px 0; padding: 10px; background-color: #333; border: 1px solid #555; color: white; }
+    button { padding: 10px 20px; background-color: #444; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #555; }
+  </style>
+</head>
+<body>
+
+<h1>Xeno Modz Free Fire Proxy Panel</h1>
+
+<form id="settingsForm">
+  <label for="uid">Free Fire UID:</label>
+  <input type="text" id="uid" name="uid" required>
+  <br>
+
+  <label for="diamonds">Diamonds:</label>
+  <input type="number" id="diamonds" name="diamonds" value="0" min="0">
+  <br>
+
+  <label for="rank">Rank:</label>
+  <select id="rank" name="rank">
+    <option value="Bronze">Bronze</option>
+    <option value="Silver">Silver</option>
+    <option value="Gold">Gold</option>
+    <option value="Platinum">Platinum</option>
+    <option value="Diamond">Diamond</option>
+    <option value="Master">Master</option>
+    <option value="Grandmaster">Grandmaster</option>
+  </select>
+  <br>
+
+  <label for="skins">Skins (comma separated):</label>
+  <input type="text" id="skins" name="skins">
+  <br>
+
+  <button type="submit">Apply Changes & Claim Rewards</button>
+</form>
+
+<script>
+  document.getElementById('settingsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = {
+      uid: document.getElementById('uid').value,
+      diamonds: document.getElementById('diamonds').value,
+      rank: document.getElementById('rank').value,
+      skins: document.getElementById('skins').value.split(',')
+    };
+
+    fetch('http://localhost:3000/adjustSettings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(`Settings updated successfully! Rewards: ${data.rewards.message}`);
+    })
+    .catch(error => console.error('Error:', error));
+  });
+</script>
+
+</body>
+  </html>
